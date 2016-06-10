@@ -3,7 +3,9 @@ Sauce is a command line tool for searching files and lines for keywords.
 """
 from setuptools import find_packages, setup
 
-dependencies = ['click', 'colorama', 'pyyaml']
+dependencies = ['click', 'pyyaml']
+
+# colorama for windows
 
 setup(
     name='sauce',

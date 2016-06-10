@@ -1,6 +1,7 @@
+ # -*- coding: utf-8
+from __future__ import unicode_literals
 import click
 import os
-import re
 import yaml
 import tarfile
 
@@ -14,8 +15,9 @@ def unzip_tarfile(file_path):
         tar.close()
         return True
     except BaseException as e:
-        click.secho('error: file not extracted', fg='red')
+        click.secho(e + ': file not extracted', fg='red')
         return False
+
 
 def load_yaml(file_path):
     '''Load search configs from yaml file.'''
@@ -25,8 +27,9 @@ def load_yaml(file_path):
             doc = yaml.load(stream)  # TODO validate
         return doc
     except yaml.parser.ParserError as e:
-        click.secho('error: yaml.parser.ParserError: yaml syntax invalid', fg='red')
+        click.secho(e + ': yaml syntax invalid', fg='red')
         pass
+
 
 def check_terms(item, excluded, included):
     '''Search item against lists of excluded and/or included terms.'''
@@ -45,6 +48,7 @@ def check_terms(item, excluded, included):
         if (excluded and not included) and not is_excluded:
             result = True
     return result
+
 
 def get_lines(doc, file_path):
     '''Search file contents.'''
@@ -67,9 +71,10 @@ def get_lines(doc, file_path):
                                 lines.append(line)
                         if max_lines != 0 and len(lines) > max_lines - 1:
                             return lines
-    except BaseException as e:
+    except BaseException:
         pass
     return lines
+
 
 def get_files(doc, path):
     '''Walk directory tree for matching folders, files and lines.'''
@@ -83,6 +88,7 @@ def get_files(doc, path):
                 file_path = os.path.join(root, _file)
                 file_paths.append(file_path)
     return file_paths
+
 
 def print_lines(doc, file_paths):
     '''Display results.'''
@@ -103,6 +109,7 @@ def print_lines(doc, file_paths):
                     click.echo(line)
     pass
 
+
 def get_results(doc, path):
     '''Get matching file paths, and lines.'''
     file_paths = get_files(doc, path)
@@ -117,25 +124,33 @@ def get_results(doc, path):
     click.echo()
     return file_paths
 
+
 # @click.option('--slice-search', '-s', default=None, help='Slice line searches with <start>:<end>')
 # @click.option('--bottoms-up', '-b', is_flag=True, help='Read up from the bottom of files.')
 # @click.option('--create-yaml', '-c', is_flag=True, help='Create yaml file from search arguments.')
+
 
 @click.command()
 @click.argument('path', default='.', required=False)
 @click.option('--show-duplicates', '-d', is_flag=True, help='Show duplicate lines.')
 @click.option('--extract-tarfile', '-e', default=None, help='Extract tarfile.')
-@click.option('--from-yaml', '-f', default=None, help='Use search paramaters from yaml file.')
-@click.option('--lines-include', '-j', default=None, help='Line terms to be matched.')
-@click.option('--lines-exclude', '-k', default=None, help='Line terms not to be matched.')
-@click.option('--limit-lines', '-l', default=0, help='Limit number of line results to return from each file.')
-@click.option('--walk-results', '-w', is_flag=True, help='Step through the results of each file.')
-@click.option('--files-include', '-x', default=None, help='File name terms to be matched.')
-@click.option('--files-exclude', '-y', default=None, help='File name terms not to be matched.')
-def main(path, from_yaml, limit_lines, walk_results, show_duplicates, \
-            extract_tarfile, lines_include, lines_exclude, files_include, files_exclude):
-    doc = {'lines': {'exclude': None, 'include': None}, 'files': {'exclude': None, 'include': None}, \
-            'showDuplicates': False, 'walkResults': False, 'lineLimit': 0}
+@click.option('--from-yaml', '-f', default=None, help='Get params from yaml file.')
+@click.option('--lines-include', '-j', default=None, help='Line terms to match.')
+@click.option('--lines-exclude', '-k', default=None, help='Line terms to avoid.')
+@click.option('--limit-lines', '-l', default=0, help='Limit results from each file.')
+@click.option('--walk-results', '-w', is_flag=True, help='Step input results.')
+@click.option('--files-include', '-x', default=None, help='File terms to match.')
+@click.option('--files-exclude', '-y', default=None, help='File terms to avoid.')
+def main(path, from_yaml, limit_lines, walk_results, show_duplicates,
+        extract_tarfile, lines_include, lines_exclude, files_include,
+        files_exclude):
+    # Set deaults
+    doc = {'lines': {'exclude': None, 'include': None},
+            'files': {'exclude': None, 'include': None},
+            'showDuplicates': False,
+            'walkResults': False,
+            'lineLimit': 0}
+    # Implement options
     if extract_tarfile:
         unzip_tarfile(extract_tarfile)
     if from_yaml:
@@ -148,6 +163,9 @@ def main(path, from_yaml, limit_lines, walk_results, show_duplicates, \
         doc['files']['include'] = files_include.strip().split(',')
     if files_exclude:
         doc['files']['exclude'] = files_exclude.strip().split(',')
+        doc['files']['exclude'] = doc['files']['exclude'] + ['.pp', '.db']
+    else:
+        doc['files']['exclude'] = ['.pp', '.db']  # Hack
     if show_duplicates:
         doc['showDuplicates'] = True
     if walk_results:
