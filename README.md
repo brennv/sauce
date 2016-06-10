@@ -40,11 +40,11 @@ For searching lines in files, specify terms to include (-j) or exclude (-k) from
 Specify file names to include (-x) or exclude (-y) with search terms:
 
     # Any file with log in the file name
-    sauce -f log  
+    sauce -x log  
     # Any file with log or config in the file name
-    sauce -f "log, config"
+    sauce -x "log, config"
     # While excluding files with sys in the file name
-    sauce -f "log, config" -g app
+    sauce -x "log, config" -y app
 
 To limit search results to a maximum of 10 lines per file:
 
@@ -78,6 +78,9 @@ Example yaml file:
         - fatal
         - fail
         - warn
+    showDuplicates: True
+    lineLimits: 1000
+    walkResults: True
 
 # Upgrade
 
