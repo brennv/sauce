@@ -2,6 +2,9 @@
 
 Sauce is a command line tool for searching files and lines for keywords.
 
+![](http://s33.postimg.org/zfc3mnscf/siracha.png)
+
+
 # Installation
 
 Install [pipsi](https://github.com/mitsuhiko/pipsi#readme).
@@ -80,7 +83,7 @@ Example yaml file:
 
 # Upgrade
 
-To upgrade, `git pull` changes and:
+To upgrade, git pull changes and:
 
     $ pipsi upgrade .
 
