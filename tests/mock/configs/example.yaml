@@ -15,5 +15,5 @@ lines:
     - fail
     - warn
 showDuplicates: True
-lineLimits: 1000
 walkResults: True
+lineLimit: 1000

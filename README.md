@@ -1,68 +1,66 @@
 # sauce
 
-Sauce is a command line tool for searching files and lines for keywords.
-
-![](http://s33.postimg.org/zfc3mnscf/siracha.png)
-
+🍝 Sauce is a command line tool for searching files.
 
 # Installation
 
-Install [pipsi](https://github.com/mitsuhiko/pipsi#readme).
+Install [pipsi](https://github.com/mitsuhiko/pipsi#readme) -- a lightweight, python package manager.
+
+    curl https://raw.githubusercontent.com/mitsuhiko/pipsi/master/get-pipsi.py | python
 
 And simply:
 
-    $ cd sauce
-    $ pipsi install .
+    pipsi install .
 
 # Getting started
 
-To use it:
+To show the commands:
 
-    $ sauce --help
+    sauce --help
 
 # Usage
 
 By default sauce will search the current directory, walking the file tree, opening and printing all files:
 
-    $ sauce
+    sauce
 
 To specify a target directory, path or file:
 
-    $ sauce my-folder
+    sauce <path>
 
 For searching lines in files, specify terms to include (-j) or exclude (-k) from results:
 
     # Any line with foo
-    $ sauce -j foo  
+    sauce -j foo  
     # Any line with foo or bar
-    $ sauce -j "foo, bar"
+    sauce -j "foo, bar"
     # Any line with foo or bar, while excluding lines with hello
-    $ sauce -j "foo, bar" -k hello
+    sauce -j "foo, bar" -k hello
 
 Specify file names to include (-x) or exclude (-y) with search terms:
 
     # Any file with log in the file name
-    $ sauce -f log  
+    sauce -f log  
     # Any file with log or config in the file name
-    $ sauce -f "log, config"
+    sauce -f "log, config"
     # While excluding files with sys in the file name
-    $ sauce -f "log, config" -g app
+    sauce -f "log, config" -g app
 
-To limit search result lines to a maximum of 10 lines per file:
+To limit search results to a maximum of 10 lines per file:
 
-    $ sauce -m 10
+    sauce -m 10
 
-To unmask duplicate line results:
+Duplicate lines are hidden by default, to show duplicate results:
 
-    $ sauce -d
+    sauce -d
 
 To walk through the file results one-by-one, pressing any key to continue:
 
-    $ sauce -w
+    sauce -w
 
 To execute predefined search parameters, specify a formatted yaml file:
 
-    $ sauce -y foo.yaml
+    sauce -y foo.yaml
 
 Example yaml file:
 
@@ -83,10 +81,10 @@ Example yaml file:
 
 # Upgrade
 
-To upgrade, git pull changes and:
+To upgrade, make or git pull changes and:
 
-    $ pipsi upgrade .
+    pipsi upgrade .
 
 # Uninstalling
 
-    $ pipsi uninstall sauce
+    pipsi uninstall sauce
