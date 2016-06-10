@@ -1,0 +1,16 @@
+# Example yaml file for defining search parameters
+
+files:
+  exclude:
+    - txt
+  include:
+    - log
+lines:
+  exclude:
+    - hello
+    - world
+  include:
+    - error
+    - fatal
+    - fail
+    - warn

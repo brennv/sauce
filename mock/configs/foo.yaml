@@ -1,0 +1,10 @@
+files:
+  exclude:
+    - bar
+  include:
+    - log
+lines:
+  exclude:
+    - bar
+  include:
+    - foo

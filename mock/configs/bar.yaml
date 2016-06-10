@@ -1,0 +1,10 @@
+files:
+  exclude:
+    - foo
+  include:
+    - conf
+lines:
+  exclude:
+    - foo
+  include:
+    - bar

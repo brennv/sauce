@@ -1,0 +1,13 @@
+files:
+  exclude:
+    - sos.log
+  include:
+    - log
+lines:
+  exclude:
+    - no error
+    include:
+      - warn
+      - error
+      - fatal
+      - fail
