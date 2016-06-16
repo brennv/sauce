@@ -54,7 +54,7 @@ Duplicate lines are hidden by default, to show duplicate results:
 
     sauce -d
 
-To walk through the file results one-by-one, pressing any key to continue:
+To walk through the file results one-by-one, paging results by pressing `q` to continue:
 
     sauce -w
 
