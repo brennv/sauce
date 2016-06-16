@@ -48,7 +48,7 @@ Specify file names to include (-x) or exclude (-y) with search terms:
 
 To limit search results to a maximum of 10 lines per file:
 
-    sauce -m 10
+    sauce -l 10
 
 Duplicate lines are hidden by default, to show duplicate results:
 
